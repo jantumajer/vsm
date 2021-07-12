@@ -1,4 +1,4 @@
-# The Vaganov-Shashkin tree-ring growth model (VSM) - version **Oscilloscope**
+# The Vaganov-Shashkin tree-ring growth model (VSM) - version *Oscilloscope*
 
 The repository is based on the version of the Vaganov-Shashkin model published by Anchukaitis et al. (2020) available through https://github.com/kanchukaitis/vsm/. The referenced MATLAB code fully reproduce the original FORTRAN implementation of the Vaganov-Shashkin model. However, because modified versions (mostly simplifications) of this overal complex tree-ring model were published over time, it does not provide consistent results with all currently existing model implementations. Here we introduce modifications mostly to original `vsm` function making the calculus consistent with the version of the model used in the visual tool VS-Oscilloscope v1.367 (http://www.vs-genn.ru/).
 
