@@ -1,16 +1,21 @@
-# The Vaganov-Shashkin tree-ring growth model (VSM)
+# The Vaganov-Shashkin tree-ring growth model (VSM) - version Oscilloscope
 
-This repository provides the Vaganov-Shashkin tree-ring growth model (VSM) in MATLAB (Octave-compatible).  VSM, originally written in Fortran, mimics subdaily and daily resolution processes of cambial growth in trees as a function of soil moisture, air temperature, and insolation, with environmental forcing modeled as the principle of limiting factors.  Our re-implementation in a high level interpreted language, while sacrificing speed, provides opportunities to systematically evaluate model parameters, generate large ensembles of simulated tree-ring chronologies, and embed proxy system modeling within data assimilation approaches to climate reconstruction.  We also provide examples of model applications which permit process-level understanding of tree ring width variations in response to environmental variations and boundary conditions. 
+The repository is based on the version of the Vaganov-Shashkin model published by Anchukaitis et al. (2020) available through https:/github.com/kanchukaitsi/vsm. The referenced MATLAB code fully reproduced the original FORTRAN implementation of the Vaganov-Shashkin model. However, because modified versions (mostly simplifications) of this overal complex tree-ring model were published over time, it does not produce results consistent with all currently available implementations. Here we introduce modifications making the calculations consistent with the version of the model used in the VS-Oscilloscope v1.367 (http://www.vs-genn.ru/).
+
+The modifications are based on introduction of two new functions (`vsm_oscilloscope` and `NEXT`), we also provide new file showing the required structure of parameters input (`parameters_oscillosope`). With the set of these tree new files, the modified version of the model is self-standing and might be used independently from functions used in original repository (although we want to fully account for the fact that the developments and structure of modified functions were fully based on original `vsm` and `parameters` scripts, we we purely modified). The details about application syntax is provided directly in the heading of `vsm_oscilloscope` function, where each modification made to the original `vsm` function was annotated.
 
 ## Citation
 
-Please cite this work when using this model:
+To refer `vsm` and other original functions (which served as baseline for development of Oscillosope versions) please cite:
 
-Anchukaitis, K.J., M.N. Evans, M. K. Hughes, and E. Vaganov, An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model, submitted to *Dendrochronologia*, 2019
+Anchukaitis K.J., Evans M.N., Hughes M. K.,  Vaganov E.A. (2020): An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model. *Dendrochronologia* 60: 125677. DOI 10.1016/j.dendro.2020.125677
+More details about this implementation are available through https:/github.com/kanchukaitsi/vsm
 
-A preprint is available at [EartharXiv](https://doi.org/10.31223/osf.io/ruyad). 
+The modified function `vsm_oscilloscope` was recently presented in following publications:
 
-Please inform Kevin Anchukaitis if you identify any bugs.  
+
+
+This repository provides the Vaganov-Shashkin tree-ring growth model (VSM) in MATLAB (Octave-compatible).  VSM, originally written in Fortran, mimics subdaily and daily resolution processes of cambial growth in trees as a function of soil moisture, air temperature, and insolation, with environmental forcing modeled as the principle of limiting factors.  Our re-implementation in a high level interpreted language, while sacrificing speed, provides opportunities to systematically evaluate model parameters, generate large ensembles of simulated tree-ring chronologies, and embed proxy system modeling within data assimilation approaches to climate reconstruction.  We also provide examples of model applications which permit process-level understanding of tree ring width variations in response to environmental variations and boundary conditions. 
 
 ## Basic Applications
 
