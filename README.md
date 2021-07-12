@@ -8,8 +8,13 @@ The modifications are based on introduction of two new functions (`vsm_oscillosc
 
 1. To refer `vsm` and additional functions from the original repository (which served as baseline for development of Oscillosope versions) please cite:
 
-   - Anchukaitis K.J., Evans M.N., Hughes M. K.,  Vaganov E.A. (2020): An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model. *Dendrochronologia* 60: 125677. DOI 10.1016/j.dendro.2020.125677
+   - Anchukaitis K.J., Evans M.N., Hughes M. K.,  Vaganov E.A. (2020): An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model. *Dendrochronologia* 60: 125677. https://doi.org/10.1016/j.dendro.2020.125677
    
    - More details about this implementation are available through https://github.com/kanchukaitis/vsm/
 
 The modified function `vsm_oscilloscope` was recently presented in following publications:
+
+   - Tumajer J., Kaspar J., Kuzelova H., Shishov V.V., Tychkov I.I., Popkova M.I., Vaganov E.A., Treml V. (2021): Forward Modeling Reveals Multidecadal Trends in Cambial Kinetics and Phenology at Treeline. *Frontiers in Plant Science* 613646. https://www.frontiersin.org/articles/10.3389/fpls.2021.613643/full
+   - Tumajer J., Buras A., Camarero J.J., Carrer M., Shetti R., Wilmking M., Altman J., Sanguessa-Bareda G., Lehejcek J.,: Growing faster, longer or both? Modelling plastic response of Juniperus communis growth phenology to climate change. Submitted to *Global Ecology and Biogeography.*
+   - Tumajer J., Shishov V.V., Ilyin V.A., Camarero J.J.: Plastic growth dynamics of Mediterranean pines and junipers determines their climatic adaptability . Submitted to *Agricultural and Forest Meteorology.*
+
