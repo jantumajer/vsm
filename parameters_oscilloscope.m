@@ -44,9 +44,9 @@ parameters.K(1)  =          0;  % soil melting switch: yes (1); no (0)
 parameters.K(4)  =          1;  % snow melting switch: yes (1); no (0)
 parameters.K(8)  =         50;  % Maximum duration (days) of latewood formation
 parameters.K(9)  =         10;  % the period (days) over which to sum temperature to calculate start of growth
-  % !!! Be aware that K(9) in this script equals tbeg-1 in VS-Oscilloscope
+  % !!! Be aware that K(9) in this script equals tbeg-1 in VS-Oscilloscope !!!
 
-  parameters.K(10) =         10;  % the period (days) over which to sum temperature to calculate start soil melting
+parameters.K(10) =         10;  % the period (days) over which to sum temperature to calculate start soil melting
 
 % Parameters for Cambial Block
 parameters.ndc   =          1;  % Use previous cambium for following year? 1 = yes (dynamic cambium), 0 = no(static);
