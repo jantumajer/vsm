@@ -6,10 +6,9 @@ The modifications are based on introduction of two new functions (`vsm_oscillosc
 
 ## Citation
 
-To refer `vsm` and additional functions from the original repository (which served as baseline for development of Oscillosope versions) please cite:
+1. To refer `vsm` and additional functions from the original repository (which served as baseline for development of Oscillosope versions) please cite:
 
-Anchukaitis K.J., Evans M.N., Hughes M. K.,  Vaganov E.A. (2020): An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model. *Dendrochronologia* 60: 125677. DOI 10.1016/j.dendro.2020.125677
-
-More details about this implementation are available through https://github.com/kanchukaitis/vsm/
+   - Anchukaitis K.J., Evans M.N., Hughes M. K.,  Vaganov E.A. (2020): An interpreted language implementation of the Vaganov-Shashkin tree-ring proxy system model. *Dendrochronologia* 60: 125677. DOI 10.1016/j.dendro.2020.125677
+   - More details about this implementation are available through https://github.com/kanchukaitis/vsm/
 
 The modified function `vsm_oscilloscope` was recently presented in following publications:
