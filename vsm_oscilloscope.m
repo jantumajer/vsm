@@ -26,7 +26,7 @@
 % The example parameters file for the use of 'vsm_oscilloscope' is provided as 'parameters_oscilloscope'.
 
 % Finaly, the file with function 'NEXT' must be stored in the same folder as 'vsm_oscilloscope' for running of the script.
-% It serves for determination of the smooth cessation of the cambial activity in autumn (see line 368 for details).
+% It serves for determination of the smooth cessation of the cambial activity in autumn (see line 369 for details).
 
 ################################################################################
 ################################################################################
@@ -278,8 +278,8 @@ for cyear=1:length(iyear)      % begin cycling over years
              
         % start growth?
         
-% ///MODIFICATION/// - reflecting the introduction of the date of cambial activity cessation (tday) ...
-% ... and possibility to run cambial model only on request (parameters.cambial).
+% ///MODIFICATION/// - reflecting the introduction of the date of cambial activity cessation (tday) 
+% and possibility to run cambial model only on request (parameters.cambial).
        
         if t >= fday(cyear) && t <= tday(cyear) && parameters.cambial == 1     % only enter the growth and cambial blocks if it's growing season, otherwise, skip to end of the day cycle
             % [t cyear Gr(t,cyear) GrE(t) GrW(t,cyear) GrT(t,cyear)]
@@ -371,7 +371,7 @@ for cyear=1:length(iyear)      % begin cycling over years
 % in the response to cooling). In such case tday is shifted to the first day when both rules (cumulT < Tbeg/tbeg & Gr<Vs) is fullfilled.
 % To estimate Gr during consecutive day, the function automatically calls supplementary function NEXT.
    
-    if t==tday(cyear) && tday(cyear) > (fday(cyear) + 1)
+    if t==tday(cyear) && tday(cyear) > (fday(cyear) + 1) % The second condition not mandatory; used only for error catching
       Grnext = NEXT(t, T, P, sm, ndl, cyear, ndays, parameters);
        if Gr(t,cyear) > parameters.Vs || Grnext > parameters.Vs 
          tday(cyear) = tday(cyear) + 1;
@@ -382,8 +382,9 @@ for cyear=1:length(iyear)      % begin cycling over years
   % 1] The soil moisture is off (soil moisture is constant) outside of the growing season
   % 2] Dormancy precipitation is cumulated and 60 % of it is added to prrain on the first day of next growing season (in addition to possible snowmelt calculated using degree-days equations)
   % 3] Different form of degree-day model of snow melting
+  % 4] Different rules applied to redistribute precipitation between prrain and prsnow during the year
   
-    % What was cumulative precipitation before and after the growing season?
+    % What was cumulative precipitation in parts of the year before and after the growing season onset and cessation?
     Pcumul_spring(1, cyear) = sum(P(1:fday(cyear)-1 , cyear));
     Pcumul_fall(1, cyear)   = sum(P(tday(cyear)+1:ndays(cyear) , cyear));
  
@@ -402,13 +403,17 @@ for cyear=1:length(iyear)      % begin cycling over years
             prsnow = 0;
             xmelt(t,cyear) = 0;
             prrain(t, cyear) = P(t,cyear);
+        % important ///MODIFICATION/// to the logic of soil moisture model behavior during winter
+        % All precipitation is always (during entire year) summed into prrain
+        % In addition to summing precipitation to prrain, it is also included to prsnow if T<SNmt
+        % BUT those calculations affect only indirectly sm at the beggining of the next growing season, because simulated sm is replaced with constant values during dormancy.
         elseif T(t,cyear) <= parameters.SNmt  % if it's cold enough to snow ...
             prsnow = P(t,cyear);                % Precipitation is in the form of snow ...
-            prrain(t, cyear) =  P(t,cyear); % !!!! 0;                  % ... not rain ...
-            xmelt(t,cyear)  = 0;                   % and there is no snow melt
+            prrain(t, cyear) =  P(t,cyear);     % ... but we also include it into prrain ...
+            xmelt(t,cyear)  = 0;                % and there is no snow melt
         else              % if it's not cold enough to snow ...
             prrain(t, cyear) = P(t,cyear);                        % Precipitation is in the form of rain ...
-            prsnow = 0;                           % ... not snow ...
+            prsnow = 0;                           % ... not snow
             % ///MODIFICATION/// - different form of snow-melting degree-day equation
             xmelt(t,cyear) = 1 * (T(t,cyear) - parameters.SNmt);
             
@@ -426,7 +431,7 @@ for cyear=1:length(iyear)      % begin cycling over years
             if snow(1,cyear+1) < 0; snow(1,cyear+1) = 0; end    % make sure we don't have negative snow depths
         end
         
-        % important ///MODIFICATION/// - cumulative precipitation during the previous dormancy is added to prrain in the day before the start of the growing season 
+        % important ///MODIFICATION/// - 60 % of the cumulative precipitation during the previous dormancy is added to prrain in the day before the start of the growing season 
         if t==fday(cyear)-1 && cyear > 1
             prrain(t, cyear) = 0.6 * (Pcumul_spring(1, cyear) + Pcumul_fall(1, cyear-1)); endif
         if t==fday(cyear)-1 && cyear == 1
@@ -461,17 +466,14 @@ for cyear=1:length(iyear)      % begin cycling over years
             if isnan(sm(1,cyear+1)); sm(1,cyear+1) = parameters.Wmin; end  % error catching
         end
  
-% important ///MODIFICATION/// - soil moisture model is deactivated during dormancy. Indeed, it assumes ...
-% ... constant soil moisture with purely accumulation of precipiatation (P_cumul). Because Gr is used as a proxy ...
-% ... for final simulated TRW in Oscilloscope, we also replace all Gr>0 outside growing season with 0 (assumption of ...
-% ... no growth during dormancy).
-
+% important ///MODIFICATION/// - soil moisture model is deactivated during dormancy. Indeed, it assumes constant soil moisture solely with accumulation of precipiatation (P_cumul). 
         if t+1 < fday(cyear) || t+1 > tday(cyear)
           if t == 1 && cyear > 1; sm(t, cyear) = sm(365, cyear - 1); sm(t+1, cyear) = sm(365, cyear - 1);
              else 
                sm(t+1, cyear) = sm(t, cyear); endif
         endif
-        
+ 
+ % ///MODIFICATION/// - because Gr is used as a proxy for final simulated TRW in Oscilloscope, we replace all Gr>0 outside growing season with 0 (assumption of no growth during dormancy).
         if t < fday(cyear) || t > tday(cyear)
           Gr(t, cyear) = 0;
         endif 
@@ -502,7 +504,7 @@ for cyear=1:length(iyear)      % begin cycling over years
         eday(cyear) = NaN;
     end
     
-    % number of xlyem (non cambium) cells
+    % number of xylem (non cambium) cells
     nxylem(cyear)   = nring(cyear) - ncambium(cyear); % number of tracheid cells in the ring for the year
     
     
@@ -519,7 +521,7 @@ if parameters.cambial == 1 % ///MODIFICATION/// reflecting possibility to run th
   trws = 0; 
 endif
 
-% ///MODIFICATION/// - definition of simulated chronology based on standardized sum of Gr
+% ///MODIFICATION/// - definition of simulated chronology based on standardized sum of Gr - approach implemented in VS-Oscilloscope
 for cyear=1:length(iyear);              
   fday_year = fday(cyear);
   tday_year = tday(cyear);
@@ -528,7 +530,7 @@ endfor
 
 trwo = trwo1 / mean(trwo1);
 
-GrE = mean(GrE,2);
+GrE = mean(GrE,2); % marginal ///MODIFICATION/// to the format of output table (1x365 instead of nyear*365 with constant columns)
 
 % Write output data to a single structure
 output.startYear        = syear;
@@ -543,7 +545,7 @@ output.nCambium         = ncambium;
 output.Gr               = Gr;
 output.GrT              = GrT;
 output.GrW              = GrW;
-output.GrE              = GrE;
+output.GrE              = GrE; % Altered format
 output.transpiration    = trans;
 output.sm               = sm;
 output.snowdepth        = snow;
