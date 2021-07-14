@@ -18,6 +18,10 @@ The modified function `vsm_oscilloscope` was recently presented in the following
    - Tumajer J., Buras A., Camarero J.J., Carrer M., Shetti R., Wilmking M., Altman J., Sanguessa-Bareda G., Lehejcek J.: Growing faster, longer or both? Modelling plastic response of Juniperus communis growth phenology to climate change. Submitted to *Global Ecology and Biogeography.*
    - Tumajer J., Shishov V.V., Ilyin V.A., Camarero J.J.: Plastic growth dynamics of Mediterranean pines and junipers determines their climatic adaptability. Submitted to *Agricultural and Forest Meteorology.*
 
+## User notes
+
+The newly-introduced oscilloscope functions were fully developed in Octave and were NOT tested in MATLAB. However, the code is build exclusivelly using core Octave functions and, thus, proper functionality with MATLAB might be assumed. Please, do not hesitate to contact us if you spot some problems.
+
 ## Acknowledgements
 
 The identification of the differences between both VS-model implementations and the development of modified functions was performed as a part of following projects:
