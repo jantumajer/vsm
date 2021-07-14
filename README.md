@@ -15,12 +15,12 @@ To refer `vsm` and additional functions from the original repository (which serv
 The modified function `vsm_oscilloscope` was recently presented in the following publications:
 
    - Tumajer J., Kaspar J., Kuzelova H., Shishov V.V., Tychkov I.I., Popkova M.I., Vaganov E.A., Treml V. (2021): Forward Modeling Reveals Multidecadal Trends in Cambial Kinetics and Phenology at Treeline. *Frontiers in Plant Science* 613646. https://www.frontiersin.org/articles/10.3389/fpls.2021.613643/full
-   - Tumajer J., Buras A., Camarero J.J., Carrer M., Shetti R., Wilmking M., Altman J., Sangüesa-Barreda G., Lehejcek J.: Growing faster, longer or both? Modelling plastic response of Juniperus communis growth phenology to climate change. Submitted to *Global Ecology and Biogeography.*
+   - Tumajer J., Buras A., Camarero J.J., Carrer M., Shetti R., Wilmking M., Altman J., Sangüesa-Barreda G., Lehejcek J.: Growing faster, longer or both? Modelling plastic response of *Juniperus communis* growth phenology to climate change. Submitted to *Global Ecology and Biogeography.*
    - Tumajer J., Shishov V.V., Ilyin V.A., Camarero J.J.: Plastic growth dynamics of Mediterranean pines and junipers determines their climatic adaptability. Submitted to *Agricultural and Forest Meteorology.*
 
 ## User notes
 
-The newly-introduced oscilloscope functions were fully developed in Octave and were NOT tested in MATLAB. However, the code is build exclusivelly using core Octave functions and, thus, proper functionality with MATLAB might be assumed. Please, do not hesitate to contact me if you spot any problems.
+The newly-introduced Oscilloscope functions were fully developed in Octave and were NOT tested in MATLAB. However, the code is build exclusivelly using core Octave functions and, thus, proper functionality with MATLAB might be assumed. Please, do not hesitate to contact me if you spot any problems.
 
 ## Acknowledgements
 
