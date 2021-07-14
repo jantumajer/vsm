@@ -20,7 +20,7 @@ The modified function `vsm_oscilloscope` was recently presented in the following
 
 ## User notes
 
-The newly-introduced oscilloscope functions were fully developed in Octave and were NOT tested in MATLAB. However, the code is build exclusivelly using core Octave functions and, thus, proper functionality with MATLAB might be assumed. Please, do not hesitate to contact us if you spot some problems.
+The newly-introduced oscilloscope functions were fully developed in Octave and were NOT tested in MATLAB. However, the code is build exclusivelly using core Octave functions and, thus, proper functionality with MATLAB might be assumed. Please, do not hesitate to contact us if you spot any problems.
 
 ## Acknowledgements
 
