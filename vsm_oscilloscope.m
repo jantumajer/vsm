@@ -36,7 +36,7 @@ function [output] = vsm_oscilloscope(T, P, phi, syear, eyear, parameters, vararg
   
 % VSM Vaganov-Shashkin Cambial Growth Model [vsm]
 %
-%   [output] = vsm(T,P,phi,syear,eyear,parameters,varargin)
+%   [output] = vsm_oscilloscope(T,P,phi,syear,eyear,parameters,varargin)
 %
 % Inputs:
 % T = (366 x number of years) matrix of daily temperatures (C)
@@ -52,7 +52,7 @@ function [output] = vsm_oscilloscope(T, P, phi, syear, eyear, parameters, vararg
 
 % File History:
 % last modified 5 December 2018 Kevin Anchukaitis
-% altered 1 July 2021 Jan Tumajer
+% altered 1 July 2021 Jan Tumajer to be consistent with VS-Oscilloscope algorithm
 %
 % Citation: Anchukaitis, Evans, Hughes, Vaganov, VSM: An implementation of the Vaganov-Shashkin Cambial
 %           Growth Model in MATLAB, submitted to Dendrochronologia, 2018
