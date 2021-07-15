@@ -24,7 +24,7 @@ The newly-introduced Oscilloscope functions were fully developed in Octave and w
 
 ## Acknowledgements
 
-The identification of the differences between both VS-model implementations and the development of modified functions was performed as a part of following projects:
+**Development of the Oscilloscope functions in Octave would not be possible without the existence and public availability of implemetations presented by Anchukaitis et al. (2020) and Shishov et al. (2016).** The identification of the differences between both VS-model implementations and the development of modified functions was performed as a part of following projects:
 
    - *Alexander von Humboldt Foundation - PostDoctoral Fellowship to Jan Tumajer*
    - *Czech Science Foundation - project 19-138076S*
