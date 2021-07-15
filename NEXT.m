@@ -56,12 +56,12 @@ function[Grnext] = NEXT(t,T,P,sm,ndl,cyear,ndays,parameters)
         %%%% Soil moisture model component to estimate soil moisture level for the next day %%%%
         % transpiration
         trt             = parameters.k(2) * exp(T(t,cyear) * parameters.k(3));
-        trans(t,cyear)  = trt * (GrE(t) * min(GrT(t,cyear),GrW(t,cyear)));
+        trans(t,cyear)  = trt * (GrE(t) * min(GrT(t,cyear),GrW(t,cyear))); % Assumption of equal Gr(t) and Gr(t+1) applied only here for calculation of transpiration
         
-        prrain(t, cyear) = P(t,cyear);
+        % Because of late summer-autumn season of cambial activity cessation I drop snow-melt calculations
+        prrain(t, cyear) = P(t,cyear); 
 
         % calculate soil moisture for the next day
-        % because of late summer-autumn season of cambial activity cessation I drop snow-melt
         K(6) = min(parameters.k(1) * prrain(t, cyear), parameters.Pmax);
         w    = sm(t,cyear) * parameters.rootd * (1 - parameters.rated) + K(6) - trans(t,cyear);  % available water used for soil moisture calculation
         % w    = sm(t,cyear) * rootd * (1 - rated) + K(6) - trans + xm;  % available water used for soil moisture calculation
