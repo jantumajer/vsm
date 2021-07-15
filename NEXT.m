@@ -1,6 +1,5 @@
 %%% Calculation of expected growth rate for the next day (t+1)
-% Estimates the growth rate of the next day based on known temperature and daylength conditions and unknown moisture level
-% Assumes stable moisture: sm(t, cyear) == sm(t+1), cyear)
+% Used for the smoothing of the cambial activity cessation
 
 function[Grnext] = NEXT(t,T,P,sm,ndl,cyear,ndays,parameters)
         % First, I need GrE time series
