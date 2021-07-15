@@ -165,28 +165,28 @@ for cyear=1:length(iyear)      % begin cycling over years
     
     %% INITIATE GROWTH
     % calculate growing degree days; When is the time to start growth?
-    % Puvodni varianta bez kumulativnich srazek
+    
  
-% small ///MODIFICATION /// of an algorithm determining the onset of cambial activity
-  % Cambial activity does not start if cumulative temperature thresholds is exceeded but daily temperature is below T1
+    % small ///MODIFICATION /// of an algorithm determining the onset of cambial activity
+       % Cambial activity does not start if cumulative temperature thresholds is exceeded but daily temperature is below T1
   
     sum_temperature = -Inf;                         % (re)initialize sum-of-temperature variable
     tt = 1;                                         % begin on the first day of the year (day counter)
-    while (sum_temperature < parameters.Tg || T(tt+parameters.K(9), cyear) < parameters.Tf(1))  % as long as sum-of-temperatures has not crossed threshold AND temperature is enough to sustain growth ...
+    while (sum_temperature < parameters.Tg || T(tt+parameters.K(9), cyear) < parameters.Tf(1))  % as long as sum-of-temperatures has not crossed threshold OR temperature is not enough to sustain growth ...
         tt = tt + 1;
         sum_temperature = sum(T(tt:(tt+parameters.K(9)),cyear)); % used sum (for Octave) over the period set in the parameter K(9)
         fday(cyear) = tt+parameters.K(9);                      % set the first day to begin growth to the current day (in case we cross the threshold)
     endwhile                                             % once growing degree days have crossed threshold, cambial activity can begin
 
     
-% important ///MODIFICATION/// - the growing season is terminated after the last drop of cumulative temeprature below thresholds
+% important ///MODIFICATION/// - the growing season is terminated after the last drop of cumulative temperature below threshold
  
     sum_temperature = -Inf;                         % (re)initialize sum-of-temperature variable
     tt = 364 - parameters.K(9);                     % begin with the last posible day of the year
     tday(cyear) = tt+parameters.K(9);
     while sum_temperature < parameters.Tg && tt+parameters.K(9) > fday(cyear) % as long as sum-of-temperatures has not crossed threshold to ceasse growth ...
         sum_temperature = sum(T(tt:tt+parameters.K(9),cyear)); % used sum (for Octave) over the period set in the parameter K(9)
-        tday(cyear) = tt+parameters.K(9);                      % set the first day to begin growth to the current day (in case we cross the threshold)
+        tday(cyear) = tt+parameters.K(9);                      % set the last day of the growing season to the current day (in case we cross the threshold)
         tt = tt - 1;                                % reduce the day counter
     end 
   
@@ -379,16 +379,16 @@ for cyear=1:length(iyear)      % begin cycling over years
     endif
      
 % very important ///MODIFICATIONs/// - VS-Oscilloscope operates soil moisture model with significantly different (simplified) behaviour
-  % 1] The soil moisture is off (soil moisture is constant) outside of the growing season
+  % 1] The soil moisture is off (i.e., soil moisture is constant) outside of the growing season during dormancy
   % 2] Dormancy precipitation is cumulated and 60 % of it is added to prrain on the first day of next growing season (in addition to possible snowmelt calculated using degree-days equations)
   % 3] Different form of degree-day model of snow melting
   % 4] Different rules applied to redistribute precipitation between prrain and prsnow during the year
   
-    % What was cumulative precipitation in parts of the year before and after the growing season onset and cessation?
+    % What was cumulative precipitation in parts of the dormancy before and after the growing season onset and cessation?
     Pcumul_spring(1, cyear) = sum(P(1:fday(cyear)-1 , cyear));
     Pcumul_fall(1, cyear)   = sum(P(tday(cyear)+1:ndays(cyear) , cyear));
  
-        % Run simulations for all days, beacuse simulated values will be replaced during dormancy by constant later.
+        % Run simulations for all days, beacuse simulated values will be replaced by constant during dormancy later.
         
         % transpiration
         GrTrans(t,cyear) = Gr(t,cyear); 
@@ -404,8 +404,8 @@ for cyear=1:length(iyear)      % begin cycling over years
             xmelt(t,cyear) = 0;
             prrain(t, cyear) = P(t,cyear);
         % important ///MODIFICATION/// to the logic of soil moisture model behavior during winter
-        % All precipitation is always (during entire year) summed into prrain
-        % In addition to summing precipitation to prrain, it is also included to prsnow if T<SNmt
+        % All precipitation is always (during entire year) summed into prrain !!!!
+        % In addition to summing precipitation to prrain, it is also included to prsnow if T<SNmt !!!
         % BUT those calculations affect only indirectly sm at the beggining of the next growing season, because simulated sm is replaced with constant values during dormancy.
         elseif T(t,cyear) <= parameters.SNmt  % if it's cold enough to snow ...
             prsnow = P(t,cyear);                % Precipitation is in the form of snow ...
@@ -468,9 +468,11 @@ for cyear=1:length(iyear)      % begin cycling over years
  
 % important ///MODIFICATION/// - soil moisture model is deactivated during dormancy. Indeed, it assumes constant soil moisture solely with accumulation of precipiatation (P_cumul). 
         if t+1 < fday(cyear) || t+1 > tday(cyear)
-          if t == 1 && cyear > 1; sm(t, cyear) = sm(365, cyear - 1); sm(t+1, cyear) = sm(365, cyear - 1);
+          if t == 1 && cyear > 1
+               sm(t, cyear) = sm(365, cyear - 1); sm(t+1, cyear) = sm(365, cyear - 1);
              else 
-               sm(t+1, cyear) = sm(t, cyear); endif
+               sm(t+1, cyear) = sm(t, cyear); 
+           endif
         endif
  
  % ///MODIFICATION/// - because Gr is used as a proxy for final simulated TRW in Oscilloscope, we replace all Gr>0 outside growing season with 0 (assumption of no growth during dormancy).
@@ -480,7 +482,7 @@ for cyear=1:length(iyear)      % begin cycling over years
         
         
 % ///MODIFICATION/// - definition of new ouptupts describing daily state of cambial+differentiation zones
-  % applicable only if parameters.b(15) = 1 (cambial cycle frequency is one day)! Othervise, see original section at line 355
+  % applicable only if parameters.b(15) = 1 (cambial cycle frequency is one day)! Othervise, see original section at line 360
         ccc=find(~isnan(DIV(:,cyear)));
         CAMB(t, cyear) = sum(DIV(ccc,cyear)); % Cambial cells' number
         TOT(t, cyear) = nring(cyear); % Total (cambial+xylem) cells' number
@@ -521,7 +523,7 @@ if parameters.cambial == 1 % ///MODIFICATION/// reflecting possibility to run th
   trws = 0; 
 endif
 
-% ///MODIFICATION/// - definition of simulated chronology based on standardized sum of Gr - approach implemented in VS-Oscilloscope
+% ///MODIFICATION/// - definition of simulated chronology based on standardized sum of Gr - approach according to VS-Oscilloscope
 for cyear=1:length(iyear);              
   fday_year = fday(cyear);
   tday_year = tday(cyear);
@@ -530,7 +532,7 @@ endfor
 
 trwo = trwo1 / mean(trwo1);
 
-GrE = mean(GrE,2); % marginal ///MODIFICATION/// to the format of output table (1x365 instead of nyear*365 with constant columns)
+GrE = mean(GrE,2); % marginal ///MODIFICATION/// to the format of output table (1x365 instead of nyear*365 with equal columns) - assuming PAR=0
 
 % Write output data to a single structure
 output.startYear        = syear;
